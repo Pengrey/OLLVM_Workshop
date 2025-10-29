@@ -23,20 +23,7 @@ namespace {
                     continue;
                 }
 
-                bool hasPHINodes = false;
-                for (BasicBlock &BB : F) {
-                    if (isa<PHINode>(BB.front())) {
-                        hasPHINodes = true;
-                        break;
-                    }
-                }
-
-                if (hasPHINodes) {
-                    errs() << formatv("Skipping function {0,-25} (contains PHI nodes)\n", F.getName());
-                    continue;
-                }
-
-                errs() << formatv("Flattening function {0,-20}", F.getName());
+                //TODO
 
                 auto &CTX = F.getContext();
                 IntegerType *int32Ty = IntegerType::getInt32Ty(CTX);
@@ -67,7 +54,7 @@ namespace {
                 defaultBlock->moveAfter(dispatcherBlock);
 
                 IRBuilder<> allocaBuilder(&entryBlock->front());                                                                // State variable for the dispatcher
-                AllocaInst *stateVar = allocaBuilder.CreateAlloca(int32Ty, nullptr, "state");
+                //TODO
 
                 Instruction *entryTerm = entryBlock->getTerminator();
                 BasicBlock *firstBlock = entryTerm->getSuccessor(0);
@@ -93,32 +80,7 @@ namespace {
                     block->moveAfter(lastBlock);
                 }
 
-                for (BasicBlock *BB : originalBlocks) {                                                                         // Rewrite terminators   
-                    Instruction *terminator = BB->getTerminator();
-                    IRBuilder<> builder(terminator);
-
-                    if (isa<ReturnInst>(terminator) || isa<UnreachableInst>(terminator)) {                                      // Skip return and unreachable instructions
-                        continue;
-                    }
-
-                    if (BranchInst *branch = dyn_cast<BranchInst>(terminator)) {
-                        if (branch->isUnconditional()) {
-                            BasicBlock *successor = branch->getSuccessor(0);
-                            builder.CreateStore(ConstantInt::get(int32Ty, blockToIdMap[successor]), stateVar);
-                            builder.CreateBr(dispatcherBlock);
-                        } else {
-                            BasicBlock *trueDest = branch->getSuccessor(0);
-                            BasicBlock *falseDest = branch->getSuccessor(1);
-                            Value *condition = branch->getCondition();
-                            Value *trueId = ConstantInt::get(int32Ty, blockToIdMap[trueDest]);
-                            Value *falseId = ConstantInt::get(int32Ty, blockToIdMap[falseDest]);
-                            Value *nextState = builder.CreateSelect(condition, trueId, falseId, "nextState");
-                            builder.CreateStore(nextState, stateVar);
-                            builder.CreateBr(dispatcherBlock);
-                        }
-                        terminator->eraseFromParent();
-                    }
-                }
+                //TODO
 
                 std::vector<AllocaInst*> AllocasToMove;                                                                         // Move allocas to entry block
                 for (BasicBlock &BB : F) {

@@ -9,9 +9,7 @@ using namespace llvm;
 namespace {
     struct ListFunctions : public PassInfoMixin<ListFunctions> {
         PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM) {
-            for (auto &F : M) {
-                errs() << "Function:\n" << F << "\n";
-            }
+//TODO
             return PreservedAnalyses::all();
         };
     };

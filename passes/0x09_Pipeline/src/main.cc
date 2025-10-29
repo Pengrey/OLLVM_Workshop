@@ -3,9 +3,7 @@
 
 using namespace llvm;
 
-#include "ControlFlowFlattening.cc"
-#include "SplitBasicBlocks.cc"
-#include "ArithmeticObf.cc"
+//TODO
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo llvmGetPassPluginInfo() {
     return {
@@ -15,10 +13,7 @@ extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo llvmGetPassPluginInfo() {
         .RegisterPassBuilderCallbacks = [](PassBuilder &PB) {
             PB.registerPipelineStartEPCallback(
                 [](ModulePassManager &MPM, OptimizationLevel Level) {
-                    // They will run in this order
-                    MPM.addPass(ControlFlowFlattening());
-                    MPM.addPass(SplitBasicBlocks());
-                    MPM.addPass(ArithmeticObf());
+                    //TODO
                 });
         }
     };

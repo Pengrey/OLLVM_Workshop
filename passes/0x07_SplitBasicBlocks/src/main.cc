@@ -13,19 +13,17 @@
 #include <cstdlib>
 #include <ctime>
 
-#define SPLIT_CHANCE_PERCENT 50 // 50% chance that any given eligible block will be split
+//TODO
 
 using namespace llvm;
 
 namespace {
     struct SplitBasicBlocks : public PassInfoMixin<SplitBasicBlocks> {
         PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM) {
-            srand(time(NULL));
+            //TODO
 
             auto &CTX = M.getContext();
             IntegerType *int32Ty = IntegerType::getInt32Ty(CTX);
-
-            FunctionCallee randFunc = M.getOrInsertFunction("rand", int32Ty);
 
             auto containsPHI = [](const BasicBlock *BB) {
                 for (const Instruction &I : *BB) {
@@ -58,17 +56,15 @@ namespace {
                     unsigned splitIdx = 1 + (rand() % (BB->size() - 2));                                            // Get index to split BB
                     auto splitIt = std::next(BB->begin(), splitIdx);
 
-                    BasicBlock *successor = BB->splitBasicBlock(splitIt, BB->getName() + ".split");
-                    Instruction *oldTerminator = BB->getTerminator();
+                    //TODO
 
                     BasicBlock *dummyBlock = BasicBlock::Create(CTX, BB->getName() + ".dummy", &F, successor);
                     IRBuilder<>(dummyBlock).CreateBr(successor);
 
-                    bool condition = (rand() % 2 == 0);
-                    Value* fixedCond = condition ? ConstantInt::getTrue(CTX) : ConstantInt::getFalse(CTX);
+                    //TODO
 
                     IRBuilder<> builder(oldTerminator);
-                    builder.CreateCondBr(fixedCond, successor, dummyBlock);
+                    //TODO
                     oldTerminator->eraseFromParent();
 
                     errs() << formatv("[REPLACED]: Block was slpitted\t");

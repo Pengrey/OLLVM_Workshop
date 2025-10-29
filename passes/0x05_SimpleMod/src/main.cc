@@ -12,15 +12,10 @@ namespace {
             for (auto& F : M) {
                 for (auto& BB : F) {
                     for (auto& I : BB) {
-                        if (auto *binOp = dyn_cast<BinaryOperator>(&I)) {                       // Check if the instruction is a binary operation
-                            if (binOp->getOpcode() == Instruction::Add) {                       // Check if it's an addition operation
+                        //TODO
                                 errs() << "Found add instruction: " << *binOp << "\n";
 
-                                IRBuilder<> builder(binOp);                                     // Create an IRBuilder to help with instruction creation  
-                                Value *newLHS = binOp->getOperand(0);                           // Get the left-hand side operand (in the test case, this is '2')
-                                Value *newRHS = binOp->getOperand(1);                           // Get the right-hand side operand (in the test case, this is '1')
-                                Value *newSub = builder.CreateSub(newLHS, newRHS);              // Create a new subtraction instruction (2 - 1)
-
+                                //TODO
                                 binOp->replaceAllUsesWith(newSub);                              // Redirect the old instruction to use the new one
                                 errs() << "Replaced with sub instruction: " << *newSub << "\n";
                             }

@@ -9,11 +9,7 @@ using namespace llvm;
 namespace {
     struct ListBasicBlocks : public PassInfoMixin<ListBasicBlocks> {
         PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM) {
-            for (auto& F : M) {
-                for (auto& BB : F) {
-                    errs() << "Basic Block:\n" << BB << "\n";
-                }
-            }
+//TODO
             return PreservedAnalyses::all();
         };
     };

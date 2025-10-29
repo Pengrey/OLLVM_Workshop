@@ -70,15 +70,7 @@ namespace {
 
                     for (BasicBlock &BB : F) {
                         for (Instruction &I : BB) {
-                            if (auto *binOp = dyn_cast<BinaryOperator>(&I)) {
-                                if (binOp->getOpcode() == Instruction::Add ||
-                                    binOp->getOpcode() == Instruction::Sub ||
-                                    binOp->getOpcode() == Instruction::Xor ||
-                                    binOp->getOpcode() == Instruction::And ||
-                                    binOp->getOpcode() == Instruction::Or) {
-                                    worklist.push_back(binOp);                                          // Save to modify later
-                                    }
-                            }
+                            //TODO
                         }
                     }
 
@@ -92,17 +84,9 @@ namespace {
                         Value* rhs = binOp->getOperand(1);
                         Value* newInst = nullptr;
 
-                        switch (binOp->getOpcode()) {
-                            case Instruction::Add: newInst = mba_add(lhs, rhs, builder); break;
-                            case Instruction::Sub: newInst = mba_sub(lhs, rhs, builder); break;
-                            case Instruction::Xor: newInst = mba_xor(lhs, rhs, builder); break;
-                            case Instruction::And: newInst = mba_and(lhs, rhs, builder); break;
-                            case Instruction::Or:  newInst = mba_or(lhs, rhs, builder); break;
-                            default: continue;
-                        }
+                        //TODO
                         //errs() << formatv("     [REPLACED]: {0,-35} -> {1}\n", *binOp, *newInst);
-                        binOp->replaceAllUsesWith(newInst);
-                        binOp->eraseFromParent();
+                        //TODO
                     }
 
                     errs() << "[Done]\n";

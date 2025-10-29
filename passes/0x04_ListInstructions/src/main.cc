@@ -9,13 +9,7 @@ using namespace llvm;
 namespace {
     struct ListInstructions : public PassInfoMixin<ListInstructions> {
         PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM) {
-            for (auto& F : M) {
-                for (auto& BB : F) {
-                    for (auto& I : BB) {
-                        errs() << "Instruction:\n" << I << "\n";
-                    }
-                }
-            }
+//TODO
             return PreservedAnalyses::all();
         };
     };
